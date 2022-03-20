@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      iframe {
+        width: 95%;
+        border: 1px solid gray;
+        height: 300px;
+      }
+      input {
+        width: 95%;
+        display: block;
+      }
+      pre {
+        background-color: lightgray;
+        padding: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h4>host page</h4>
+    <a href="https://htmldom.dev/communication-between-an-iframe-and-its-parent-window/"
+      >g(Communication between an iframe and its parent window)</a
+    >
+    <br />
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">More about in MDN pages</a>
+    <form>
+      <lable>
+        <input type="text" />
+        <button type="submit">send</button>
+      </lable>
+    </form>
+    <pre></pre>
+    <br />
+    <br />
+    <iframe src="http://0.0.0.0:4219/iframe.html"></iframe>
+    <script>
+      const log = (function () {
+        try {
+          return console.log;
+        } catch (e) {
+          return () => {};
+        }
+      })();
+
+      {
+        const iframes = Array.from(document.querySelectorAll("iframe"));
+        const input = document.querySelector("input");
+        input.value = "";
+
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          if (input.value) {
+            const data = {
+              source: "parent",
+              message: input.value,
+            };
+
+            log(`parent sent `, JSON.stringify(data));
+
+            iframes.forEach((iframe) => {
+              iframe.contentWindow.postMessage(data, "*");
+            });
+          } else {
+            log(`parent not sending... emtpy string`);
+          }
+        });
+      }
+
+      const pre = document.querySelector("pre");
+      window.addEventListener("message", function (e) {
+        if (e.origin === "http://0.0.0.0:4219") {
+          log("parent received", e, "source", e.source); // READ MORE ABOUT source: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#the_dispatched_event
+
+          // Get the sent data
+          const data = e.data;
+
+          pre.innerText =
+            String(`${new Date().toISOString().substring(0, 19).replace("T", " ")}: ${JSON.stringify(data)}`) +
+            "\n" +
+            pre.innerText;
+          // If you encode the message in JSON before sending them,
+          // then decode here
+          // const decoded = JSON.parse(data);
+        } else {
+          // log(`parent different origin: ${e.origin}`, e);
+        }
+      });
+    </script>
+  </body>
+</html>
