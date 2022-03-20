@@ -73,7 +73,7 @@
       {
         const pre = document.querySelector("pre");
         window.addEventListener("message", function (e) {
-          if (e.origin === "http://0.0.0.0:4218") {
+          if (e.origin === "http://local.com:4218") {
             log("iframe received", e);
             // Get the sent data
             const data = e.data;

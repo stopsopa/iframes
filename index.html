@@ -42,7 +42,7 @@
     <pre></pre>
     <br />
     <br />
-    <iframe src="http://0.0.0.0:4219/iframe.html"></iframe>
+    <iframe src="http://local2.com:4219/iframe.html"></iframe>
     <script>
       const log = (function () {
         try {
@@ -80,7 +80,7 @@
 
       const pre = document.querySelector("pre");
       window.addEventListener("message", function (e) {
-        if (e.origin === "http://0.0.0.0:4219") {
+        if (e.origin === "http://local2.com:4219") {
           log("parent received", e, "source", e.source); // READ MORE ABOUT source: https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#the_dispatched_event
 
           // Get the sent data
