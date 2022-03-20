@@ -9,21 +9,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <style>
-        iframe {
-            width: 95%;
-            border: 1px solid gray;
-            height: 300px;
-        }
-        input {
-            width: 95%;
-            display: block;
-        }
-        pre {
-            background-color: lightgray;
-            padding: 5px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
+      iframe {
+        width: 95%;
+        border: 1px solid gray;
+        height: 300px;
+      }
+      input {
+        width: 95%;
+        display: block;
+      }
+      pre {
+        background-color: lightgray;
+        padding: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
     </style>
   </head>
   <body>
@@ -36,7 +36,6 @@
     </form>
     <pre></pre>
     <script>
-
       const log = (function () {
         try {
           return console.log;
@@ -74,16 +73,13 @@
         window.addEventListener("message", function (e) {
           if (e.origin === "http://local.com:4218") {
             log("iframe received", e);
-            // Get the sent data
+
             const data = e.data;
 
             pre.innerText =
               String(`${new Date().toISOString().substring(0, 19).replace("T", " ")}: ${JSON.stringify(data)}`) +
               "\n" +
               pre.innerText;
-            // If you encode the message in JSON before sending them,
-            // then decode here
-            // const decoded = JSON.parse(data);
           } else {
             // log(`iframe different origin: ${e.origin}`, e);
           }
